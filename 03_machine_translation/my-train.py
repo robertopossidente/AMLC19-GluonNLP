@@ -27,7 +27,7 @@ parser.add_argument('--batch-size', type=int, default=64,
                     help='training batch size (default: 64)')
 parser.add_argument('--dtype', type=str, default='float32',
                     help='training data type (default: float32)')
-parser.add_argument('--epochs', type=int, default=5,
+parser.add_argument('--epochs', type=int, default=10,
                     help='number of training epochs (default: 5)')
 parser.add_argument('--lr', type=float, default=0.01,
                     help='learning rate (default: 0.01)')
@@ -64,7 +64,7 @@ num_workers = hvd.size()
 
 '''wmt_model_name = 'transformer_en_de_512'
 wmt_transformer_model, wmt_src_vocab, wmt_tgt_vocab = \
-    nmt.transformer.get_model(wmt_model_name,
+    nlp.model.get_model(wmt_model_name,
                               dataset_name='WMT2014',
                               pretrained=True,
                               ctx=ctx)
@@ -85,8 +85,6 @@ model = nmt.translation.NMTModel(src_vocab=src_vocab, tgt_vocab=tgt_vocab, encod
                  embed_initializer=None, prefix='transformer_')
 model.initialize(init=mx.init.Xavier(magnitude=3.0), ctx=ctx)
 model.hybridize()'''
-
-
 
 '''wmt_data_test = nlp.data.WMT2014BPE('newstest2014',
                                     src_lang=hparams.src_lang,
@@ -201,8 +199,8 @@ encoder, decoder, one_step_ahead_decoder = nlp.model.transformer.get_transformer
                                                    max_tgt_length=549,
                                                    scaled=hparams.scaled)
 model = nlp.model.translation.NMTModel(src_vocab=src_vocab, tgt_vocab=tgt_vocab, encoder=encoder, decoder=decoder,
-                 one_step_ahead_decoder=one_step_ahead_decoder, share_embed=False, embed_size=hparams.num_units, tie_weights=False,
-                 embed_initializer=None, prefix='transformer_')
+                 one_step_ahead_decoder=one_step_ahead_decoder, share_embed=False, embed_size=hparams.num_units, 
+                                       tie_weights=False, embed_initializer=None, prefix='transformer_')
 model.initialize(init=mx.init.Xavier(magnitude=3.0), ctx=ctx)
 model.hybridize()
 
@@ -222,7 +220,8 @@ label_smoothing.hybridize()
 loss_function = nlp.loss.MaskedSoftmaxCrossEntropyLoss(sparse_label=False)
 loss_function.hybridize()
 
-test_loss_function = nlp.loss.MaskedSoftmaxCrossEntropyLoss()
+#test_loss_function = nlp.loss.MaskedSoftmaxCrossEntropyLoss()
+test_loss_function =  nlp.loss.MaskedSoftmaxCELoss()
 test_loss_function.hybridize()
 
 detokenizer = nlp.data.SacreMosesDetokenizer()
@@ -252,18 +251,20 @@ average_param_dict = {k: mx.nd.array([0]) for k, v in
                                       model.collect_params().items()}
 update_average_param_dict = True
 model.collect_params().zero_grad()
+print('hparams.epochs= %d' % (hparams.epochs))
+init_time = time.time()
 for epoch_id in range(hparams.epochs):
     print('Epoch %d - train_one_epoch started' % (epoch_id))
     utils.train_one_epoch(epoch_id, model, train_data_loader, trainer,
                           label_smoothing, loss_function, grad_interval,
                           average_param_dict, update_average_param_dict,
-                          step_num, ctx)
+                          step_num, ctx, hvd.local_rank(), init_time)
     print('Epoch %d - train_one_epoch finished' % (epoch_id))
     mx.nd.waitall()
     print('Epoch %d - after waitall' % (epoch_id))
     # We define evaluation function as follows. The `evaluate` function use beam search translator
     # to generate outputs for the validation and testing datasets.
-    valid_loss, _ = utils.evaluate(model, val_data_loader,
+    '''valid_loss, _ = utils.evaluate(model, val_data_loader,
                                    test_loss_function, translator,
                                    tgt_vocab, detokenizer, ctx)
     print('Epoch %d, valid Loss=%.4f, valid ppl=%.4f'
@@ -275,7 +276,7 @@ for epoch_id in range(hparams.epochs):
           % (epoch_id, test_loss, np.exp(test_loss)))
     if valid_loss < best_valid_loss:
         best_valid_loss = valid_loss
-        model.save_parameters('{}.{}'.format(hparams.save_dir, 'valid_best.params'))
+        model.save_parameters('{}.{}'.format(hparams.save_dir, 'valid_best.params'))'''
     model.save_parameters('{}.epoch{:d}.params'.format(hparams.save_dir, epoch_id))
 mx.nd.save('{}.{}'.format(hparams.save_dir, 'average.params'), average_param_dict)
 

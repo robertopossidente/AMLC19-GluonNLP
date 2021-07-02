@@ -52,17 +52,23 @@ def evaluate(model, data_loader, test_loss_function, translator, tgt_vocab, deto
         src_valid_length = src_valid_length.as_in_context(context)
         tgt_valid_length = tgt_valid_length.as_in_context(context)
         # Calculating Loss
+        #print('Calculating Loss')
         out, _ = model(src_seq, tgt_seq[:, :-1], src_valid_length, tgt_valid_length - 1)
         loss = test_loss_function(out, tgt_seq[:, 1:], tgt_valid_length - 1).mean().asscalar()
         all_inst_ids.extend(inst_ids.asnumpy().astype(np.int32).tolist())
         avg_loss += loss * (tgt_seq.shape[1] - 1)
         avg_loss_denom += (tgt_seq.shape[1] - 1)
         # Translate
+        #print('Translate')
+        #print('src_seq= %s' % src_seq)
+        #print('src_valid_length= %s' % src_valid_length)
         samples, _, sample_valid_length = \
             translator.translate(src_seq=src_seq, src_valid_length=src_valid_length)
+        #print('After translator')
         max_score_sample = samples[:, 0, :].asnumpy()
         sample_valid_length = sample_valid_length[:, 0].asnumpy()
         for i in range(max_score_sample.shape[0]):
+            #print('i= %d' % i)
             translation_out.append(
                 [tgt_vocab.idx_to_token[ele] for ele in
                  max_score_sample[i][1:(sample_valid_length[i] - 1)]])
@@ -96,13 +102,15 @@ def translate(translator, src_seq, src_vocab, tgt_vocab, detokenizer, ctx):
                                                 return_str=True)
     return real_translation_out              
                 
-def train_one_epoch(epoch_id, model, train_data_loader, trainer, label_smoothing, loss_function, grad_interval, average_param_dict, update_average_param_dict, step_num, ctx):
+def train_one_epoch(epoch_id, model, train_data_loader, trainer, label_smoothing, loss_function, grad_interval, average_param_dict, update_average_param_dict, step_num, ctx, rank, init_time):
     log_avg_loss = 0
     log_wc = 0
     loss_denom = 0
     step_loss = 0
     log_start_time = time.time()
+    print('[MO833] Rank,%d,Initialization Time: %f' % (rank, (time.time()- init_time)))
     for batch_id, seqs in enumerate(train_data_loader):
+        iterate_start_time = time.time()
         if batch_id % grad_interval == 0:
             step_num += 1
             new_lr = hparams.lr / math.sqrt(hparams.num_units) * min(1. / math.sqrt(step_num), step_num * hparams.warmup_steps ** (-1.5))
@@ -145,7 +153,8 @@ def train_one_epoch(epoch_id, model, train_data_loader, trainer, label_smoothing
             loss_denom = 0
             step_loss = 0
         log_wc += src_wc + tgt_wc
-        if (batch_id + 1) % (hparams.log_interval * grad_interval) == 0:
+        print('[MO833] Rank,%d,Epoch,%d,Iteration,%d,It. time,%f,Elapsed time,%f' % (rank, epoch_id, batch_id, (time.time() - iterate_start_time), (time.time()- init_time)))
+        '''if (batch_id + 1) % (hparams.log_interval * grad_interval) == 0:
             wps = log_wc / (time.time() - log_start_time)
             logging.info('[Epoch {} Batch {}/{}] loss={:.4f}, ppl={:.4f}, '
                          'throughput={:.2f}K wps, wc={:.2f}K'
@@ -155,4 +164,5 @@ def train_one_epoch(epoch_id, model, train_data_loader, trainer, label_smoothing
                                  wps / 1000, log_wc / 1000))
             log_start_time = time.time()
             log_avg_loss = 0
-            log_wc = 0
+            log_wc = 0'''
+    print('[MO833] Rank,%d,Epoch,%d,Epoch time,%f,Elapsed time,%f' % (rank, epoch_id, (time.time() - iterate_start_time), (time.time() - init_time)))
