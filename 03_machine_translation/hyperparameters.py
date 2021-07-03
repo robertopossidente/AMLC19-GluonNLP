@@ -37,9 +37,9 @@ scaled = True
 
 # parameters for training
 optimizer = 'adam'
-epochs = 3
+epochs = 1
 batch_size = 2700
-test_batch_size = 256
+test_batch_size = 32
 num_accumulated = 1
 lr = 2
 warmup_steps = 1
