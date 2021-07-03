@@ -13,12 +13,12 @@ import argparse
 import time
 import utils
 import random
-import hyperparameters as hparams
+import hyperparameters as hparams                                                                                                                                                                                                                                                                                                                                                           
 
 np.random.seed(100)
 random.seed(100)
 mx.random.seed(10000)
-ctx = mx.cpu(0)
+#ctx = mx.cpu(0)
 
 # Training settings
 parser = argparse.ArgumentParser(description='Tranformer')
@@ -58,7 +58,7 @@ logging.info(args)
 hvd.init()
 
 # Set context to current process 
-ctx = mx.cpu(hvd.local_rank()) if args.no_cuda else mx.gpu(hvd.local_rank())
+ctx = mx.cpu(hvd.rank()) if args.no_cuda else mx.gpu(hvd.local_rank())
 
 num_workers = hvd.size()
 
