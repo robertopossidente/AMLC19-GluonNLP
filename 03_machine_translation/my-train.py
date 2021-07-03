@@ -27,7 +27,7 @@ parser.add_argument('--batch-size', type=int, default=64,
                     help='training batch size (default: 64)')
 parser.add_argument('--dtype', type=str, default='float32',
                     help='training data type (default: float32)')
-parser.add_argument('--epochs', type=int, default=10,
+parser.add_argument('--epochs', type=int, default=5,
                     help='number of training epochs (default: 5)')
 parser.add_argument('--lr', type=float, default=0.01,
                     help='learning rate (default: 0.01)')
@@ -58,7 +58,7 @@ logging.info(args)
 hvd.init()
 
 # Set context to current process 
-#ctx = mx.cpu(hvd.local_rank()) if args.no_cuda else mx.gpu(hvd.local_rank())
+ctx = mx.cpu(hvd.local_rank()) if args.no_cuda else mx.gpu(hvd.local_rank())
 
 num_workers = hvd.size()
 
@@ -177,17 +177,17 @@ train_data_loader = nlp.data.ShardedDataLoader(data_train,
                                       batch_sampler=train_batch_sampler,
                                       batchify_fn=train_batchify_fn,
                                       num_workers=8)
-print('Length of train_data_loader: %d' % len(train_data_loader))
+#print('Length of train_data_loader: %d' % len(train_data_loader))
 val_data_loader = gluon.data.DataLoader(data_val,
                              batch_sampler=val_batch_sampler,
                              batchify_fn=test_batchify_fn,
                              num_workers=8)
-print('Length of val_data_loader: %d' % len(val_data_loader))
+#print('Length of val_data_loader: %d' % len(val_data_loader))
 test_data_loader = gluon.data.DataLoader(data_test,
                               batch_sampler=test_batch_sampler,
                               batchify_fn=test_batchify_fn,
                               num_workers=8)
-print('Length of test_data_loader: %d' % len(test_data_loader))
+#print('Length of test_data_loader: %d' % len(test_data_loader))
 
 # Build model
 encoder, decoder, one_step_ahead_decoder = nlp.model.transformer.get_transformer_encoder_decoder(units=hparams.num_units,
@@ -231,11 +231,11 @@ translator = nmt.translation.BeamSearchTranslator(model=model,
                                                   scorer=nlp.model.BeamSearchScorer(alpha=hparams.lp_alpha,
                                                                                     K=hparams.lp_k),
                                                   max_length=200)
-print('Use beam_size=%d, alpha=%.2f, K=%d' % (hparams.beam_size, hparams.lp_alpha, hparams.lp_k))
+#print('Use beam_size=%d, alpha=%.2f, K=%d' % (hparams.beam_size, hparams.lp_alpha, hparams.lp_k))
 
 trainer = gluon.Trainer(model.collect_params(), hparams.optimizer,
                         {'learning_rate': hparams.lr, 'beta2': 0.98, 'epsilon': 1e-9})
-print('Use learning_rate=%.2f' % (trainer.learning_rate))
+#print('Use learning_rate=%.2f' % (trainer.learning_rate))
 
 # Train model
 best_valid_loss = float('Inf')
@@ -251,7 +251,7 @@ average_param_dict = {k: mx.nd.array([0]) for k, v in
                                       model.collect_params().items()}
 update_average_param_dict = True
 model.collect_params().zero_grad()
-print('hparams.epochs= %d' % (hparams.epochs))
+print('Numero de Epochs = %d' % (hparams.epochs))
 init_time = time.time()
 for epoch_id in range(hparams.epochs):
     print('Epoch %d - train_one_epoch started' % (epoch_id))
@@ -280,7 +280,7 @@ for epoch_id in range(hparams.epochs):
     model.save_parameters('{}.epoch{:d}.params'.format(hparams.save_dir, epoch_id))
 mx.nd.save('{}.{}'.format(hparams.save_dir, 'average.params'), average_param_dict)
 
-if hparams.average_start > 0:
+'''if hparams.average_start > 0:
     for k, v in model.collect_params().items():
         v.set_data(average_param_dict[k])
 else:
@@ -294,4 +294,4 @@ test_loss, _ = utils.evaluate(model, test_data_loader,
                               test_loss_function, translator,
                               tgt_vocab, detokenizer, ctx)
 print('Best model test Loss=%.4f, test ppl=%.4f'
-      % (test_loss, np.exp(test_loss)))
+      % (test_loss, np.exp(test_loss)))'''
