@@ -58,7 +58,8 @@ logging.info(args)
 hvd.init()
 
 # Set context to current process 
-ctx = mx.cpu(hvd.cross_rank()) if args.no_cuda else mx.gpu(hvd.local_rank())
+ctx = mx.cpu(hvd.cross_rank()) if args.no_cuda else mx.gpu(hvd.local_rank()) 
+ 
 
 num_workers = hvd.size()
 
