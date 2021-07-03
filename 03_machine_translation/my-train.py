@@ -58,7 +58,7 @@ logging.info(args)
 hvd.init()
 
 # Set context to current process 
-ctx = mx.cpu(hvd.cross_rank()) if args.no_cuda else mx.gpu(hvd.local_rank()) 
+ctx = mx.cpu(hvd.rank()) if args.no_cuda else mx.gpu(hvd.local_rank()) 
  
 
 num_workers = hvd.size()
@@ -259,7 +259,7 @@ for epoch_id in range(hparams.epochs):
     utils.train_one_epoch(epoch_id, model, train_data_loader, trainer,
                           label_smoothing, loss_function, grad_interval,
                           average_param_dict, update_average_param_dict,
-                          step_num, ctx, hvd.cross_rank(), init_time)
+                          step_num, ctx, hvd.rank(), init_time)
     print('Epoch %d - train_one_epoch finished' % (epoch_id))
     mx.nd.waitall()
     print('Epoch %d - after waitall' % (epoch_id))
