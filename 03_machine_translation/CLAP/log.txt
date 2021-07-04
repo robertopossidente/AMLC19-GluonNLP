@@ -1,0 +1,119 @@
+Starting cluster: my-cluster (perform setup: True)
+[1;35m[WARNING]: provided hosts list is empty, only localhost is available. Note that[0m
+[1;35mthe implicit localhost does not match 'all'[0m
+
+PLAY [localhost] ***************************************************************
+
+TASK [Starting 1 type-small instances (timeout 600 seconds)] *******************
+[0;33mchanged: [localhost][0m
+[0;33mlocalhost[0m                  : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY RECAP *********************************************************************
+[0;33mlocalhost[0m                  : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[1;35m[WARNING]: provided hosts list is empty, only localhost is available. Note that[0m
+[1;35mthe implicit localhost does not match 'all'[0m
+
+PLAY [localhost] ***************************************************************
+
+TASK [Tagging instances] *******************************************************
+[0;33mchanged: [localhost] => (item={'id': 'i-036189d9f3826e3e7', 'name': 'GerriWinkler-30188979'})[0m
+[0;33mlocalhost[0m                  : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY RECAP *********************************************************************
+[0;33mlocalhost[0m                  : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Cluster cluster-c3c879812ec9482a98a1a105c19d2cf0 successfully created
+* 1 nodes of type jobmanager: 30188979d889458abfcd56bdedb8814b
+Performing setup operation in cluster cluster-c3c879812ec9482a98a1a105c19d2cf0
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [30188979d889458abfcd56bdedb8814b][0m
+
+TASK [Perform package list update] *********************************************
+[0;33mchanged: [30188979d889458abfcd56bdedb8814b][0m
+
+PLAY RECAP *********************************************************************
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=2   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+[0;32mok: [30188979d889458abfcd56bdedb8814b][0m
+
+TASK [Perform package installation] ********************************************
+[0;33mchanged: [30188979d889458abfcd56bdedb8814b][0m
+
+PLAY RECAP *********************************************************************
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=2   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [all] *********************************************************************
+
+TASK [Run command in the remote hosts (free form)] *****************************
+[0;33mchanged: [30188979d889458abfcd56bdedb8814b][0m
+
+PLAY RECAP *********************************************************************
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [all] *********************************************************************
+
+TASK [Run command in the remote hosts (free form)] *****************************
+[0;35m[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host [0m
+[0;35m30188979d889458abfcd56bdedb8814b should use /usr/bin/python3, but is using [0m
+[0;35m/usr/bin/python for backward compatibility with prior Ansible releases. A [0m
+[0;35mfuture Ansible release will default to using the discovered platform python for[0m
+[0;35m this host. See https://docs.ansible.com/ansible/2.11/reference_appendices/inte[0m
+[0;35mrpreter_discovery.html for more information. This feature will be removed in [0m
+[0;35mversion 2.12. Deprecation warnings can be disabled by setting [0m
+[0;35mdeprecation_warnings=False in ansible.cfg.[0m
+[0;33mchanged: [30188979d889458abfcd56bdedb8814b][0m
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY RECAP *********************************************************************
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [all] *********************************************************************
+
+TASK [Run command in the remote hosts (free form)] *****************************
+[0;35m[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host [0m
+[0;35m30188979d889458abfcd56bdedb8814b should use /usr/bin/python3, but is using [0m
+[0;35m/usr/bin/python for backward compatibility with prior Ansible releases. A [0m
+[0;35mfuture Ansible release will default to using the discovered platform python for[0m
+[0;35m this host. See https://docs.ansible.com/ansible/2.11/reference_appendices/inte[0m
+[0;35mrpreter_discovery.html for more information. This feature will be removed in [0m
+[0;35mversion 2.12. Deprecation warnings can be disabled by setting [0m
+[0;35mdeprecation_warnings=False in ansible.cfg.[0m
+[0;33mchanged: [30188979d889458abfcd56bdedb8814b][0m
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY RECAP *********************************************************************
+[0;33m30188979d889458abfcd56bdedb8814b[0m : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [all] *********************************************************************
+
+TASK [Run command in the remote hosts (free form)] *****************************
+[0;35m[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host [0m
+[0;35m30188979d889458abfcd56bdedb8814b should use /usr/bin/python3, but is using [0m
+[0;35m/usr/bin/python for backward compatibility with prior Ansible releases. A [0m
+[0;35mfuture Ansible release will default to using the discovered platform python for[0m
+[0;35m this host. See https://docs.ansible.com/ansible/2.11/reference_appendices/inte[0m
+[0;35mrpreter_discovery.html for more information. This feature will be removed in [0m
+[0;35mversion 2.12. Deprecation warnings can be disabled by setting [0m
+[0;35mdeprecation_warnings=False in ansible.cfg.[0m
+ROVOD_WITH_MXNET=1 to debug the build error.\n--------------------------------------------------------------------------\nPrimary job  terminated normally, but 1 process returned\na non-zero exit code. Per user-direction, the job has been aborted.\n--------------------------------------------------------------------------\n--------------------------------------------------------------------------\nmpirun detected that one or more processes exited with non-zero status, thus causing\nthe job to be terminated. The first process to do so was:\n\n  Process name: [[43502,1],0]\n  Exit code:    1\n--------------------------------------------------------------------------", "stderr_lines": ["Traceback (most recent call last):", "  File \"/home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py\", line 7, in <module>", "    import horovod.mxnet as hvd", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/__init__.py\", line 18, in <module>", "    check_extension('horovod.mxnet', 'HOROVOD_WITH_MXNET',", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/common/util.py\", line 56, in check_extension", "    raise ImportError(", "ImportError: Extension horovod.mxnet has not been built: /home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/mpi_lib.cpython-38-x86_64-linux-gnu.so not found", "If this is not expected, reinstall Horovod with HOROVOD_WITH_MXNET=1 to debug the build error.", "Traceback (most recent call last):", "  File \"/home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py\", line 7, in <module>", "    import horovod.mxnet as hvd", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/__init__.py\", line 18, in <module>", "    check_extension('horovod.mxnet', 'HOROVOD_WITH_MXNET',", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/common/util.py\", line 56, in check_extension", "    raise ImportError(", "ImportError: Extension horovod.mxnet has not been built: /home/ubuntu/.local[0;31mfatal: [30188979d889458abfcd56bdedb8814b]: FAILED! => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": true, "cmd": "mpirun -np 2 -H localhost:2 -bind-to none -map-by slot python /home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py --batch_size 32 --lr 2.0 --save_dir transformer_en_de_u512 --epochs 1", "delta": "0:00:03.756574", "end": "2021-07-01 17:54:24.610495", "msg": "non-zero return code", "rc": 1, "start": "2021-07-01 17:54:20.853921", "stderr": "Traceback (most recent call last):\n  File \"/home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py\", line 7, in <module>\n    import horovod.mxnet as hvd\n  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/__init__.py\", line 18, in <module>\n    check_extension('horovod.mxnet', 'HOROVOD_WITH_MXNET',\n  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/common/util.py\", line 56, in check_extension\n    raise ImportError(\nImportError: Extension horovod.mxnet has not been built: /home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/mpi_lib.cpython-38-x86_64-linux-gnu.so not found\nIf this is not expected, reinstall Horovod with HOROVOD_WITH_MXNET=1 to debug the build error.\nTraceback (most recent call last):\n  File \"/home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py\", line 7, in <module>\n    import horovod.mxnet as hvd\n  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/__init__.py\", line 18, in <module>\n    check_extension('horovod.mxnet', 'HOROVOD_WITH_MXNET',\n  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/common/util.py\", line 56, in check_extension\n    raise ImportError(\nImportError: Extension horovod.mxnet has not been built: /home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/mpi_lib.cpython-38-x86_64-linux-gnu.so not found\nIf this is not expected, reinstall Horovod with HOROVOD_WITH_MXNET=1 to debug the build error.\n--------------------------------------------------------------------------\nPrimary job  terminated normally, but 1 process returned\na non-zero exit code. Per user-direction, the job has been aborted.\n--------------------------------------------------------------------------\n--------------------------------------------------------------------------\nmpirun detected that one or more processes exited with non-zero status, thus causing\nthe job to be terminated. The first process to do so was:\n\n  Process name: [[43502,1],0]\n  Exit code:    1\n--------------------------------------------------------------------------", "stderr_lines": ["Traceback (most recent call last):", "  File \"/home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py\", line 7, in <module>", "    import horovod.mxnet as hvd", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/__init__.py\", line 18, in <module>", "    check_extension('horovod.mxnet', 'HOROVOD_WITH_MXNET',", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/common/util.py\", line 56, in check_extension", "    raise ImportError(", "ImportError: Extension horovod.mxnet has not been built: /home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/mpi_lib.cpython-38-x86_64-linux-gnu.so not found", "If this is not expected, reinstall Horovod with HOROVOD_WITH_MXNET=1 to debug the build error.", "Traceback (most recent call last):", "  File \"/home/ubuntu/AMLC19-GluonNLP/03_machine_translation/train.py\", line 7, in <module>", "    import horovod.mxnet as hvd", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/__init__.py\", line 18, in <module>", "    check_extension('horovod.mxnet', 'HOROVOD_WITH_MXNET',", "  File \"/home/ubuntu/.local/lib/python3.8/site-packages/horovod/common/util.py\", line 56, in check_extension", "    raise ImportError(", "ImportError: Extension horovod.mxnet has not been built: /home/ubuntu/.local/lib/python3.8/site-packages/horovod/mxnet/mpi_lib.cpython-38-x86_64-linux-gnu.so not found", "If this is not expected, reinstall Horovod with HOROVOD_WITH_MXNET=1 to debug the build error.", "--------------------------------------------------------------------------", "Primary job  terminated normally, but 1 process returned", "a non-zero exit code. Per user-direction, the job has been aborted.", "--------------------------------------------------------------------------", "--------------------------------------------------------------------------", "mpirun detected that one or more processes exited with non-zero status, thus causing", "the job to be terminated. The first process to do so was:", "", "  Process name: [[43502,1],0]", "  Exit code:    1", "--------------------------------------------------------------------------"], "stdout": "", "stdout_lines": []}[0m
+
+PLAY RECAP *********************************************************************
+[0;31m30188979d889458abfcd56bdedb8814b[0m : ok=0    changed=0    unreachable=0    [0;31mfailed=1   [0m skipped=0    rescued=0    ignored=0   
+
+Cluster not properly setup... You may wish perform the setup operation again
